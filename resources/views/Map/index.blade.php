@@ -11,6 +11,11 @@
     <title>Путешественник</title>
     <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         #map {
             height: 100vh;
         }
@@ -23,7 +28,7 @@
 <script>
     var mymap = L.map('map').setView([52.4447, 31.0119], 3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Интерактивная карта ГГАЭК',
+        attribution: 'Интерактивная карта Путешественник',
         maxZoom: 18
     }).addTo(mymap);
 </script>

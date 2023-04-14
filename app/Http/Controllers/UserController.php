@@ -46,4 +46,7 @@ class UserController extends Controller
         Auth::logout();
         return redirect(route('home'));
     }
+    public function profile(){
+        return view('User.index');
+    }
 }
