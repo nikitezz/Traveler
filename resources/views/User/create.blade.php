@@ -74,7 +74,7 @@
 <main>
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+            <a href="{{route('home')}}" class="d-flex align-items-center text-dark text-decoration-none">
                 <img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img">
                 <span class="fs-4">Путешественник</span>
 {{--                <div class="" style="margin-left: 80%; margin-top: -3%">--}}
@@ -99,12 +99,16 @@
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Имя</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Адрес электронной почты</label>
-                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="{{old('email')}}">
                         <div id="emailHelp" class="form-text">Мы никогда не будем делиться вашей электронной почтой с кем-либо еще.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Телефон</label>
+                        <input type="phone" class="form-control" id="phone" name="phone" value="{{old('phone')}}">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Пароль</label>

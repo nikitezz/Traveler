@@ -6,10 +6,21 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Путешественник</title>
+    <title>Отзывы о сервисе</title>
     <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <style>
+        .form-block{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+        }
+        /*.block-border{*/
+        /*    border: 1px solid gray;*/
+        /*    border-radius: 10px;*/
+        /*    padding: 20px;*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -64,85 +75,65 @@
     </ul>
 </div>
 
-
 <main>
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img">
+                <a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"></a>
                 <span class="fs-4">Путешественник</span>
-                <div class="" style="margin-left: 80%; margin-top: -3%">
-                    @if(auth()->check())
-                        <div class="dropdown text-end">
-                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{asset('images/user.png')}}" alt="mdo" width="32" height="32" class="rounded-circle">
-                            </a>
-                            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" >
-                                <li><a class="dropdown-item" href="{{route('profile')}}">Профиль ({{auth()->user()->name}})</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{route('logout')}}">Выйти</a></li>
-                            </ul>
-                        </div>
-                    @else
-                        <a href="{{asset('login')}}"><button type="button" class="btn btn-outline-primary me-2 m-1">Войти</button></a>
-                        <a href="{{route('register-create')}}"><button type="button" class="btn btn-primary">Регистрация</button></a>
-                    @endif
 
-                </div>
             </a>
         </header>
-
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Путешественник - это?</h1>
-                <p class="col-md-8 fs-4">Это интерактивный сайт, с возможностью просмотра достопримечательностей Республики Беларусь.
-                    <br> А так же...</p>
-                <button class="btn btn-outline-primary btn-lg" type="button">Читать больше</button>
-            </div>
-        </div>
-
-        <div class="row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-3 text-bg-dark rounded-3 ">
-                    <img src="{{asset('images/map.jpg')}}" alt="" height="350px"style="border-radius: 10px;">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                    <h2>Интерактивная карта</h2>
-                    <p> Электронная карта на которой представлена информация, привязанная к географическому контексту</p>
-                    @if(auth()->check())
-                        <a href="{{route('maps')}}"><button class="btn btn-outline-secondary" type="button">Перейти к карте</button></a>
-                    @else
-                        <h6 class="text-black-50">Интерактивная карта доступна только авторизованным пользователям</h6>
+        <div class="content">
+            <h2 class="text-black-50 text-center">Напишите свой отзыв</h2>
+            <div class="block-border">
+                <div class="mb-2">
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
                 </div>
+                <form action="{{route('reviews-store')}}" method="post">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Имя</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="user" value="{{auth()->user()->name}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3"></textarea>
+                    </div>
+                    <a href="{{route('reviews-create')}}"><button class="btn btn-outline-primary">Отправить</button></a>
+                </form>
+            </div>
+            <hr class="mb-5">
+            <h3 class="text-black-50">Все отзывы</h3>
+            <div class="block-reviews">
+                @foreach($review as $reviews)
+                    <div class="col-md-15">
+                        <div class="card mb-4 box-shadow">
+                            <br>
+                            <div class="card-body">
+                                <p class="card-text">{{$reviews->content}}</p>
+                                <hr>
+                                <p class="card-text">Оставил отзыв: {{$reviews->user}}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">{{$reviews->created_at}}</small>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-
-        <div class="b-example-divider p-5"></div>
-
-        <div class="row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-                    <h2>Отзывы о сервисе</h2>
-                    <p>Реальные отзывы наших посетителей.</p>
-                    @if(auth()->check())
-                        <a href="{{route('reviews-create')}}"><button class="btn btn-outline-secondary" type="button">Посмотреть отзывы</button></a>
-                    @else
-                        <h6 class="text-black-50">Для просмотра отзывов необходимо быть авторизованным!</h6>
-                    @endif
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="h-100 p-3 text-bg-dark rounded-3 ">
-                    <img src="{{asset('images/reviews.png')}}" alt="" height="100px"style="border-radius: 10px;margin-left: 40%;margin-top: 7%">
-                </div>
-            </div>
-        </div>
-
         <footer class="pt-3 mt-4 text-body-secondary border-top">
-            &copy; 2023 Тишунец Никита
+            &copy; 2023
         </footer>
     </div>
 </main>

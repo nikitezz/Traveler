@@ -75,7 +75,7 @@
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img">
+                <a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"></a>
                 <span class="fs-4">Путешественник</span>
 
             </a>

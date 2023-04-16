@@ -9,18 +9,25 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(){
-        return view('User.create');
+    public function index()
+    {
+        $users = new User();
+        $user = User::all();
+        return view('User.create', compact([
+            'user',
+        ]));
     }
     public function store(Request $request){
         $request->validate([
            'name'=>'required',
-           'email'=>'required|email',
+           'email'=>'required|email|unique:users',
+           'phone'=>'required|numeric',
            'password'=>'required|min:8'
         ]);
         $user = User::create([
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
+            'phone'=>$request->input('phone'),
             'password'=>Hash::make($request->input('password')),
         ]);
         Auth::login($user);
@@ -47,6 +54,19 @@ class UserController extends Controller
         return redirect(route('home'));
     }
     public function profile(){
-        return view('User.index');
+        $users = new User();
+        $user = User::all();
+        return view('User.index',compact([
+            'user'
+        ]));
+    }
+    public function edit($id){
+        $user = User::findOrFail($id);
+        return view('users.edit',compact('user'));
+    }
+    public function update(Request $request, $id){
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return redirect('home')->with('success','True');
     }
 }

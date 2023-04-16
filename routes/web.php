@@ -23,7 +23,14 @@ Route::group(['middleware'=>'guest'],function (){
     Route::post('/login',[\App\Http\Controllers\UserController::class,'login'])->name('login-store');
 });
 
-Route::get('/map',[\App\Http\Controllers\MapsController::class,'index'])->name('maps');
-Route::get('/logout',[\App\Http\Controllers\UserController::class,'logout'])->name('logout');
-Route::get('/admin',[\App\Http\Controllers\AdminController::class,'index'])->middleware('admin');
-Route::get('/profile',[\App\Http\Controllers\UserController::class,'profile'])->name('profile');
+Route::group(['middleware'=>'auth'],function (){
+    Route::get('/reviews',[\App\Http\Controllers\ReviewsController::class,'index'])->name('reviews-create');
+    Route::post('/reviews',[\App\Http\Controllers\ReviewsController::class,'store'])->name('reviews-store');
+    Route::get('/map',[\App\Http\Controllers\MapsController::class,'index'])->name('maps');
+    Route::get('/logout',[\App\Http\Controllers\UserController::class,'logout'])->name('logout');
+    Route::get('/admin',[\App\Http\Controllers\AdminController::class,'index'])->middleware('admin');
+    Route::get('/profile',[\App\Http\Controllers\UserController::class,'profile'])->name('profile');
+
+    Route::get('/users/{id}/edit',[\App\Http\Controllers\UserController::class,'edit'])->name('users.edit');
+    Route::put('/users/{id}',[\App\Http\Controllers\UserController::class,'update'])->name('users.update');
+});

@@ -178,7 +178,7 @@
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img">
+                <a href="{{route('home')}}"><img src="{{asset('images/logo.png')}}" alt="" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"></a>
                 <span class="fs-4">Путешественник</span>
 
             </a>
@@ -187,11 +187,11 @@
         <section class="bg-light">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 mb-4 mb-sm-5">
+                    <div class="col-lg-12 mb-2 mb-sm-5">
                         <div class="card card-style1 border-0">
                             <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
                                 <div class="row align-items-center">
-                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <div class="col-lg-6 mb-2 mb-lg-0">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="...">
                                     </div>
                                     <div class="col-lg-6 px-xl-10">
@@ -200,9 +200,11 @@
                                             <span class="text-primary">Пользователь</span>
                                         </div>
                                         <ul class="list-unstyled mb-1-9">
-                                            <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Позиция:</span> Пользователь</li>
+                                            <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Роль:</span> Пользователь</li>
                                             <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Адрес электронной почты:</span>{{auth()->user()->email}}</li>
-                                            <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Телефон:</span> -</li>
+                                            <li class="display-28"><span class="display-26 text-secondary me-2 font-weight-600">Телефон:</span> {{auth()->user()->phone}}</li>
+                                            <br>
+                                                <a href="{{route('users.edit',['id'=>$user->id])}}"><button type="submit" class="btn btn-outline-primary" >Редактировать данные</button></a>
                                         </ul>
                                         <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
                                             <li><a href="#!"><i class="ti-twitter-alt"></i></a></li>
@@ -222,6 +224,7 @@
 
                                 Это давно установленный факт, что читатель будет отвлекаться на удобочитаемое содержание страницы при просмотре ее макета. Смысл использования Lorem Ipsum в том, что он имеет более-менее нормальное распределение букв, а не наоборот.</p>
                         </div>
+                        <button type="submit" class="btn btn-outline-primary">Редактировать</button>
                     </div>
                 </div>
             </div>
